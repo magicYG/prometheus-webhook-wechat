@@ -1,0 +1,40 @@
+{{ define "__subject" }}
+[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}]
+{{ end }}
+
+
+{{ define "__alert_list" }}{{ range . }}
+>**告警主题**: {{ .Annotations.summary }}
+>**告警类型**: {{ .Labels.alertname }}
+>**告警级别**: {{ .Labels.severity }}
+>**告警实例**: {{ .Labels.instance }}
+>**告警内容**: {{ index .Annotations "description" }}
+{{ end }}{{ end }}
+
+{{ define "__resolved_list" }}{{ range . }}
+>**告警主题**: {{ .Annotations.summary }}
+>**告警类型**: {{ .Labels.alertname }}
+>**告警级别**: {{ .Labels.severity }}
+>**告警实例**: {{ .Labels.instance }}
+>**告警内容**: {{ index .Annotations "description" }}
+{{ end }}{{ end }}
+
+
+{{ define "msg.title" }}
+{{ template "__subject" . }}
+{{ end }}
+
+{{ define "msg.content" }}
+{{ if gt (len .Alerts.Firing) 0 }}
+**产生<font color="warning">{{ .Alerts.Firing | len  }}</font>个故障**
+{{ template "__alert_list" .Alerts.Firing }}
+{{ end }}
+
+{{ if gt (len .Alerts.Resolved) 0 }}
+**恢复<font color="info">{{ .Alerts.Resolved | len  }}</font>个故障**
+{{ template "__resolved_list" .Alerts.Resolved }}
+{{ end }}
+{{ end }}
+
+{{ template "msg.title" . }}
+{{ template "msg.content" . }}
