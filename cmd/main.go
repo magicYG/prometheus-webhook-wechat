@@ -18,6 +18,7 @@ import (
 
 var NotifyTargets []models.Target
 var LogConfig = &promlog.Config{}
+var MaxContentLength int
 var (
 	ListenPort = kingpin.Flag(
 		"listen-port",
@@ -55,6 +56,7 @@ func init() {
 	for _, v := range config.Targets {
 		NotifyTargets = append(NotifyTargets, v)
 	}
+	MaxContentLength = config.MaxContentLength
 }
 
 func handler(handler models.HandlerFunc) gin.HandlerFunc {
@@ -62,6 +64,7 @@ func handler(handler models.HandlerFunc) gin.HandlerFunc {
 		ctx := new(models.NewGinContext)
 		ctx.Context = c
 		ctx.NotifyTargets = NotifyTargets
+		ctx.MaxContentLength = MaxContentLength
 		ctx.TemplateFile = TemplateFile
 		ctx.Logger = promlog.New(LogConfig)
 		handler(ctx)

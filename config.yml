@@ -1,3 +1,4 @@
+maxContentLength: 4096
 targets:
   webhook1:
     url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxxxxxx

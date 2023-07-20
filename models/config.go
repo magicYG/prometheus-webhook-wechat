@@ -1,7 +1,8 @@
 package models
 
 type Config struct {
-	Targets map[string]Target `yaml:"targets"`
+	Targets          map[string]Target `yaml:"targets"`
+	MaxContentLength int               `yaml:"maxContentLength"`
 }
 
 type Target struct {

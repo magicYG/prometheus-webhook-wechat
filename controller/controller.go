@@ -8,6 +8,7 @@ import (
 	"prometheus-webhook-wechat/models"
 	"prometheus-webhook-wechat/notifier"
 	"prometheus-webhook-wechat/template"
+	"unicode/utf8"
 )
 
 func CallWechatController(c *models.NewGinContext) {
@@ -21,12 +22,18 @@ func CallWechatController(c *models.NewGinContext) {
 		})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{})
 	alertContent, err := template.TransferContent(req, c.TemplateFile)
 	if err != nil {
-		level.Error(c.Logger).Log("msg", "Generate alert content failed", "error", err)
+		level.Error(c.Logger).Log("TraceID", callID, "msg", "Generate alert content failed", "error", err)
 		return
 	}
+	alertContentLen := utf8.RuneCountInString(alertContent)
+	if alertContentLen > c.MaxContentLength {
+		level.Error(c.Logger).Log("TraceID", callID, "msg", "Too large content")
+		c.JSON(http.StatusRequestEntityTooLarge, gin.H{})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{})
 	level.Info(logger).Log("TraceID", callID, "ClientIP", c.ClientIP(), "UserAgent", c.Request.UserAgent())
 	notifier.SendNotification(c.NotifyTargets, alertContent, logger, callID)
 }

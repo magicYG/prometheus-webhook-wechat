@@ -7,9 +7,10 @@ import (
 
 type NewGinContext struct {
 	*gin.Context
-	NotifyTargets []Target `json:"notify_targets"`
-	Logger        log.Logger
-	TemplateFile  *string
+	NotifyTargets    []Target `json:"notify_targets"`
+	Logger           log.Logger
+	TemplateFile     *string
+	MaxContentLength int
 }
 
 type HandlerFunc func(ctx *NewGinContext)
