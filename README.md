@@ -32,19 +32,26 @@ targets:
 
 
 {{ define "__alert_list" }}{{ range . }}
+---
 >**告警主题**: {{ .Annotations.summary }}
 >**告警类型**: {{ .Labels.alertname }}
 >**告警级别**: {{ .Labels.severity }}
 >**告警实例**: {{ .Labels.instance }}
 >**告警内容**: {{ index .Annotations "description" }}
+>**告警来源**: [{{ .GeneratorURL }}]({{ .GeneratorURL }})
+>**告警时间**: {{ .StartsAt.Local.Format "2006-01-02 15:04:05" }}
 {{ end }}{{ end }}
 
 {{ define "__resolved_list" }}{{ range . }}
+---
 >**告警主题**: {{ .Annotations.summary }}
 >**告警类型**: {{ .Labels.alertname }}
 >**告警级别**: {{ .Labels.severity }}
 >**告警实例**: {{ .Labels.instance }}
 >**告警内容**: {{ index .Annotations "description" }}
+>**告警来源**: [{{ .GeneratorURL }}]({{ .GeneratorURL }})
+>**告警时间**: {{ .StartsAt.Local.Format "2006-01-02 15:04:05" }}
+>**告警时间**: {{ .EndsAt.Local.Format "2006-01-02 15:04:05" }}
 {{ end }}{{ end }}
 
 
