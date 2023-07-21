@@ -89,7 +89,7 @@ func main() {
 
 	err := srv.ListenAndServe()
 	if err != nil {
-		if !strings.Contains(err.Error(), "use of closed network connection") {
+		if !strings.Contains(err.Error(), "Use of closed network connection") {
 			level.Error(Logger).Log("msg", err)
 			os.Exit(10)
 		}
