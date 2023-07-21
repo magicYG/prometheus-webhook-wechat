@@ -51,7 +51,7 @@ targets:
 >**告警内容**: {{ index .Annotations "description" }}
 >**告警来源**: [{{ .GeneratorURL }}]({{ .GeneratorURL }})
 >**告警时间**: {{ .StartsAt.Local.Format "2006-01-02 15:04:05" }}
->**告警时间**: {{ .EndsAt.Local.Format "2006-01-02 15:04:05" }}
+>**恢复时间**: {{ .EndsAt.Local.Format "2006-01-02 15:04:05" }}
 {{ end }}{{ end }}
 
 
