@@ -1,0 +1,30 @@
+run:
+  deadline: 5m
+
+linters:
+  enable:
+    - depguard
+    - errcheck
+    - gocritic
+    - gofumpt
+    - goimports
+    - gosec
+    - misspell
+    - revive
+    - stylecheck
+
+issues:
+  exclude-rules:
+    - path: _test.go
+      linters:
+        - depguard
+        - errcheck
+
+linters-settings:
+  depguard:
+    list-type: blacklist
+    include-go-root: true
+    packages:
+      - sync/atomic
+  errcheck:
+    exclude: scripts/errorcheck_excludes.txt

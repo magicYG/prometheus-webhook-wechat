@@ -1,14 +1,15 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/go-kit/log/level"
-	"github.com/google/uuid"
 	"net/http"
 	"prometheus-webhook-wechat/models"
 	"prometheus-webhook-wechat/notifier"
 	"prometheus-webhook-wechat/template"
 	"unicode/utf8"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-kit/log/level"
+	"github.com/google/uuid"
 )
 
 func CallWechatController(c *models.NewGinContext) {

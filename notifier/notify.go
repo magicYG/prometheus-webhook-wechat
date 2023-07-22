@@ -3,10 +3,11 @@ package notifier
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/go-kit/log"
-	"github.com/go-kit/log/level"
 	"net/http"
 	"prometheus-webhook-wechat/models"
+
+	"github.com/go-kit/log"
+	"github.com/go-kit/log/level"
 )
 
 func SendNotification(notifyTargets []models.Target, notifyContent string, logger log.Logger, callID string) {
@@ -49,5 +50,4 @@ func SendNotification(notifyTargets []models.Target, notifyContent string, logge
 		}
 		level.Info(logger).Log("TraceID", callID, "WechatResponseCode", robotRsp.ErrCode, "WechatResponseMsg", robotRsp.ErrMsg, "URL", v.URL)
 	}
-
 }

@@ -1,6 +1,12 @@
 package main
 
 import (
+	"os"
+	"prometheus-webhook-wechat/controller"
+	"prometheus-webhook-wechat/models"
+	"strings"
+	"time"
+
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
@@ -9,16 +15,14 @@ import (
 	"github.com/prometheus/common/promlog/flag"
 	"github.com/prometheus/common/version"
 	"gopkg.in/yaml.v2"
-	"os"
-	"prometheus-webhook-wechat/controller"
-	"prometheus-webhook-wechat/models"
-	"strings"
-	"time"
 )
 
-var NotifyTargets []models.Target
-var LogConfig = &promlog.Config{}
-var MaxContentLength int
+var (
+	NotifyTargets    []models.Target
+	LogConfig        = &promlog.Config{}
+	MaxContentLength int
+)
+
 var (
 	ListenPort = kingpin.Flag(
 		"listen-port",
@@ -35,7 +39,6 @@ var (
 )
 
 func init() {
-
 	flag.AddFlags(kingpin.CommandLine, LogConfig)
 	kingpin.Version(version.Print("prometheus-webhook-wechat"))
 	kingpin.HelpFlag.Short('h')
@@ -72,7 +75,6 @@ func handler(handler models.HandlerFunc) gin.HandlerFunc {
 }
 
 func main() {
-
 	Logger := promlog.New(LogConfig)
 	gin.SetMode(gin.ReleaseMode)
 	gin.DisableConsoleColor()
@@ -94,5 +96,4 @@ func main() {
 			os.Exit(10)
 		}
 	}
-
 }
