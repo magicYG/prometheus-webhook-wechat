@@ -1,3 +1,7 @@
+# prometheus-webhook-wechat
+
+![Go Report Card](https://goreportcard.com/badge/github.com/SecurityNeo/prometheus-webhook-wechat)](https://goreportcard.com/badge/github.com/SecurityNeo/prometheus-webhook-wechat)
+
 ## 使用
 ```
 usage: prometheus-webhook-wechat [<flags>]
