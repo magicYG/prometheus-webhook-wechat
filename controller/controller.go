@@ -15,7 +15,7 @@ import (
 func CallWechatController(c *models.NewGinContext) {
 	var req models.Data
 	callID := uuid.New().String()
-	err := c.Bind(&req)
+	err := c.BindJSON(&req)
 	logger := c.Logger
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

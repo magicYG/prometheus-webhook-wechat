@@ -2,6 +2,7 @@ package notifier
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"net/http"
 	"prometheus-webhook-wechat/models"
@@ -11,7 +12,10 @@ import (
 )
 
 func SendNotification(notifyTargets []models.Target, notifyContent string, logger log.Logger, callID string) {
-	var httpClient http.Client
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // 取消证书验证
+	}
+	httpClient := &http.Client{Transport: tr}
 
 	notification := &models.WechatNotification{
 		MsgType: "markdown",
@@ -27,6 +31,7 @@ func SendNotification(notifyTargets []models.Target, notifyContent string, logge
 	}
 
 	for _, v := range notifyTargets {
+		level.Debug(logger).Log("reqbody", string(reqBody))
 		httpReq, err := http.NewRequest("POST", v.URL, bytes.NewReader(reqBody))
 		if err != nil {
 			level.Error(logger).Log("TraceID", callID, "Msg", "Building request body error", "URL", v.URL, "Error", err)

@@ -25,7 +25,7 @@ var (
 
 var (
 	ListenPort = kingpin.Flag(
-		"listen-port",
+		"web.listen-address",
 		"The port to listen for API interface,default: :80",
 	).Default(":80").String()
 	ConfigFile = kingpin.Flag(
@@ -60,6 +60,9 @@ func init() {
 		NotifyTargets = append(NotifyTargets, v)
 	}
 	MaxContentLength = config.MaxContentLength
+	if MaxContentLength == 0 {
+		MaxContentLength = 4096
+	}
 }
 
 func handler(handler models.HandlerFunc) gin.HandlerFunc {
